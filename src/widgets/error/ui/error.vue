@@ -1,0 +1,66 @@
+<script lang="ts" setup>
+import { PropType } from 'vue';
+import { ErrorModel } from '../models/ErrorModel';
+
+
+const props = defineProps({
+	error: {
+		type: Object as PropType<ErrorModel>,
+		default: new ErrorModel()
+	}
+})
+
+</script>
+
+<template>
+	<div class="error">
+		<img class="error__img" :src="error.img" />
+		<h1 class="error__title">{{ error.title }}</h1>
+		<span class="error__description">{{ error.description }}</span>
+	</div>
+</template>
+
+<style lang="scss" scoped>
+.error {
+	width: 556px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	color: $gray;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 32px;
+	border-radius: 15px;
+	background-color: #fff;
+
+	&__img {
+		width: 380px;
+		max-width: 100%;
+	}
+
+	&__title {
+		color: $lightest-red;
+		font-size: 36px;
+		line-height: 50px;
+		margin-top: 48px;
+		margin-bottom: 24px;
+	}
+
+	@include media("<tablet") {
+		font-size: 15px;
+		line-height: 24px;
+		max-width: 100%;
+
+		&__img {
+			width: 275px;
+		}
+
+		&__title {
+			font-size: 17px;
+			margin-bottom: 16px;
+			line-height: 25px;
+		}
+	}
+}
+</style>
