@@ -1,0 +1,100 @@
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { ErrorMessage } from '@/shared/ui/error-message';
+const props = defineProps({
+	modelValue: {
+		type: Boolean,
+		default: false
+	},
+	disabled: {
+		type: Boolean,
+		default: false
+	},
+	v: {
+		type: Object
+	}
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+	get: () => props.modelValue,
+	set: (value) => {
+		emit('update:modelValue', value);
+	}
+})
+
+</script>
+
+<template>
+	<div class="ui-checkbox">
+		<label class="ui-checkbox__label" :class="{ error: v.$error }">
+			<input :disabled="disabled" type="checkbox" :class="{ 'checked': value }" v-model="value">
+			<slot></slot>
+		</label>
+		<ErrorMessage v-if="v.$error" :v="v" />
+	</div>
+</template>
+
+<style lang="scss" scoped>
+.ui-checkbox {
+	margin-left: 12px;
+	display: flex;
+	flex-direction: column;
+
+	&__label {
+		display: inline-flex;
+		gap: 8px;
+		align-items: center;
+
+		input[type='checkbox'] {
+			margin: 0;
+			padding: 0;
+			border: 1px solid $light-gray;
+			width: 12px;
+			height: 12px;
+			border-radius: 2px;
+			cursor: pointer;
+			-webkit-appearance: none;
+			appearance: none;
+			transition: 0.15s ease-in-out;
+
+			&.error {
+				border-color: $lightest-gray;
+				background-color: $superlight-gray;
+			}
+
+			&:hover {
+				border-color: $red;
+			}
+
+			&:disabled {
+				border-color: $lightest-gray;
+				background-color: $superlight-gray;
+			}
+
+			&:checked,
+			&.checked {
+				border: none;
+				height: 12px;
+				width: 12px;
+				font-size: 14px;
+				background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9Im1hc3Rlci9jaGVja2JveC9uby1sYWJlbCI+CjxyZWN0IGlkPSJQbGF0ZSIgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgcng9IjEuNSIgZmlsbD0iI0U0MTYzQSIgc3Ryb2tlPSIjRTQxNjNBIi8+CjxwYXRoIGlkPSJQYXRoIiBkPSJNNS42NDYyNCA4LjM5NjI1QzUuNDUxMjQgOC41OTEyNSA1LjEzNjI0IDguNTkxMjUgNC45NDEyNCA4LjM5NjI1TDMuMTQ2MjQgNi42MDEyNUMzLjA1MjYyIDYuNTA3ODMgMyA2LjM4MTAxIDMgNi4yNDg3NUMzIDYuMTE2NDkgMy4wNTI2MiA1Ljk4OTY3IDMuMTQ2MjQgNS44OTYyNUMzLjM0MTI0IDUuNzAxMjUgMy42NTYyNCA1LjcwMTI1IDMuODUxMjQgNS44OTYyNUw1LjI5MTI0IDcuMzM2MjVMOC43MzEyNCAzLjg5NjI1QzguOTI2MjQgMy43MDEyNSA5LjI0MTI0IDMuNzAxMjUgOS40MzYyNCAzLjg5NjI1QzkuNjMxMjQgNC4wOTEyNSA5LjYzMTI0IDQuNDA2MjUgOS40MzYyNCA0LjYwMTI1TDUuNjQ2MjQgOC4zOTYyNVoiIGZpbGw9IndoaXRlIi8+CjwvZz4KPC9zdmc+Cg==);
+
+				&:disabled {
+					background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9Im1hc3Rlci9jaGVja2JveC9uby1sYWJlbCI+CjxyZWN0IGlkPSJQbGF0ZSIgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgcng9IjEuNSIgZmlsbD0iI0QxRDFEMSIgc3Ryb2tlPSIjRDFEMUQxIi8+CjxwYXRoIGlkPSJQYXRoIiBkPSJNNS42NDYyNCA4LjM5NjI1QzUuNDUxMjQgOC41OTEyNSA1LjEzNjI0IDguNTkxMjUgNC45NDEyNCA4LjM5NjI1TDMuMTQ2MjQgNi42MDEyNUMzLjA1MjYyIDYuNTA3ODMgMyA2LjM4MTAxIDMgNi4yNDg3NUMzIDYuMTE2NDkgMy4wNTI2MiA1Ljk4OTY3IDMuMTQ2MjQgNS44OTYyNUMzLjM0MTI0IDUuNzAxMjUgMy42NTYyNCA1LjcwMTI1IDMuODUxMjQgNS44OTYyNUw1LjI5MTI0IDcuMzM2MjVMOC43MzEyNCAzLjg5NjI1QzguOTI2MjQgMy43MDEyNSA5LjI0MTI0IDMuNzAxMjUgOS40MzYyNCAzLjg5NjI1QzkuNjMxMjQgNC4wOTEyNSA5LjYzMTI0IDQuNDA2MjUgOS40MzYyNCA0LjYwMTI1TDUuNjQ2MjQgOC4zOTYyNVoiIGZpbGw9IndoaXRlIi8+CjwvZz4KPC9zdmc+Cg==);
+				}
+			}
+		}
+
+		&.error {
+			color: $lightest-red;
+
+			input[type='checkbox'] {
+				border-color: $lightest-red;
+			}
+		}
+	}
+
+}
+</style>
