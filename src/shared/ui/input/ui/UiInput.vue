@@ -40,13 +40,11 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue'])
 const value = computed({
-	get: () => {
-		return props.modelValue;
-	},
+	get: () => props.modelValue,
 	set: (value) => {
-		emit('update:modelValue', value.toString());
-	},
-});
+		emit('update:modelValue', value.toString())
+	}
+})
 const inputId = computed(() => `input-${Math.random().toString(36).slice(2, 9)}`);
 const isShowPassword = ref(false);
 </script>

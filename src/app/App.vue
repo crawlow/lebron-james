@@ -1,12 +1,15 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { Notification } from '@/features';
+</script>
 
 <template>
-  <RouterView />
+	<RouterView />
+	<Notification group="app" position="top-right" />
 </template>
 
 <style lang="scss">
 * {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 </style>
