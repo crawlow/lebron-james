@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { PropType, computed } from 'vue';
+import { RouteLocationRaw } from "vue-router"
 
 const props = defineProps({
 	to: {
-		default: '/'
+		type: Object as PropType<RouteLocationRaw | String>,
 	},
 	disabled: {
 		type: Boolean,
@@ -12,11 +13,12 @@ const props = defineProps({
 })
 const externalLinkRegex = /^(https?:\/\/)?(www\.)?\S+\.\S+/i;
 const isExternalLink = computed(() => typeof props.to === 'string' && externalLinkRegex.test(props.to))
+const externalLink = computed(() => isExternalLink ? (props.to as string) : '/');
 </script>
 
 <template>
 	<span class="ui-link" :class="{ disabled: disabled }">
-		<a v-if="isExternalLink" :href="to" target="_blank">
+		<a v-if="isExternalLink" :href="externalLink" target="_blank">
 			<slot />
 		</a>
 		<RouterLink v-else :to="to">

@@ -1,7 +1,7 @@
 import { AuthModel } from './AuthModel';
 
 export class RegisterModel extends AuthModel {
-  name: string;
+  userName: string;
   constructor(obj?: Partial<AuthModel>) {
     super(obj);
     if (obj) {

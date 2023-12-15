@@ -50,7 +50,7 @@ const isShowPassword = ref(false);
 </script>
 
 <template>
-	<div class="ui-input" :class="{ password: type == 'password' }">
+	<div class="ui-input" :class="[{ password: type == 'password' }, { 'is-search': isSearch }]">
 		<label v-if="label" class="label" :for="inputId">{{ label }}</label>
 		<div class="ui-input__wrapper">
 			<input v-model="value" :id="inputId" :disabled="disabled" :placeholder="placeholder" :type="isShowPassword ? 'text' : type" class="ui-input__control" :class="[{
@@ -145,5 +145,12 @@ const isShowPassword = ref(false);
 		margin-bottom: 6px;
 		display: inline-block;
 	}
+
+	&.is-search {
+		.ui-input__control {
+			background-color: #fff;
+		}
+	}
+
 }
 </style>

@@ -42,6 +42,7 @@ const props = defineProps({
 	line-height: 24px;
 	font-family: 'Avenir';
 	transition: 0.15s ease-in-out;
+	padding: 0 24px;
 
 	&.primary {
 		color: #fff;

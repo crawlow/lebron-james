@@ -10,7 +10,7 @@
 .logo {
 	max-width: 191px;
 
-	@include media('<tablet') {
+	@include media('<desktop') {
 		max-width: 137px;
 	}
 }

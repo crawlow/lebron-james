@@ -12,10 +12,12 @@ import {
   Players,
   PlayerDetails,
   Player,
-  SignIn,
+  SignInPage,
   SignUp,
   Error,
 } from '@/pages';
+import { useUserStore } from '@/entities';
+import { storeToRefs } from 'pinia';
 
 const DEFAULT = 'default';
 
@@ -24,6 +26,9 @@ const routes: Array<RouteRecordRaw> = [
     name: DEFAULT,
     path: `/`,
     component: DefaultLayout,
+    meta: {
+      auth: true,
+    },
     children: [
       {
         path: 'teams',
@@ -80,7 +85,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/signIn',
         name: 'signIn',
-        component: SignIn,
+        component: SignInPage,
         meta: {
           title: 'Sign In',
         },
@@ -102,9 +107,29 @@ const router = createRouter({
   routes,
 });
 
+let isGottenUser = false;
+
 router.beforeEach(async (to, from, next) => {
   document.title = `Lebron James - ${to.meta.title || 'dex'}`;
-  next();
+  const { getCurrentUser } = useUserStore();
+  const { currentUser } = storeToRefs(useUserStore());
+  if (!isGottenUser) {
+    isGottenUser = true;
+    getCurrentUser();
+  }
+  if (currentUser.value) {
+    if (to.meta.auth) {
+      next();
+    } else {
+      next({ name: 'teams' });
+    }
+  } else {
+    if (to.meta.auth) {
+      next('/');
+    } else {
+      next();
+    }
+  }
 });
 
 export { routes };
