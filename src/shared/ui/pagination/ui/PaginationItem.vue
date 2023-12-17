@@ -40,6 +40,11 @@ const clickHandler = () => {
 	width: 40px;
 	height: 40px;
 	box-sizing: border-box;
+
+	@include media('<tablet') {
+		width: 28px;
+		height: 28px;
+	}
 }
 
 .page {
@@ -49,7 +54,6 @@ const clickHandler = () => {
 	width: 40px;
 	height: 40px;
 	color: $gray;
-	background-color: #fff;
 	font-size: 14px;
 	border-radius: 4px;
 	box-sizing: border-box;
@@ -67,6 +71,11 @@ const clickHandler = () => {
 		color: #fff;
 		background-color: $red;
 		border-color: $red;
+	}
+
+	@include media('<tablet') {
+		width: 28px;
+		height: 28px;
 	}
 }
 </style>

@@ -163,8 +163,6 @@ const onSignOut = async () => {
 			display: block;
 		}
 
-
-
 		.fade-enter-active,
 		.fade-leave-active {
 			transition: 0.25s ease-in-out;

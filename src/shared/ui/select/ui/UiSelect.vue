@@ -246,6 +246,25 @@ const clearValue = () => {
 			color: $light-gray;
 			border-radius: 4px;
 		}
+
+		@include media('<tablet') {
+			&__container {
+				height: 28px;
+				padding: 2px 4px 2px;
+			}
+
+			&__arrow {
+				background-size: 16px;
+			}
+
+			&__separator {
+				margin: 0 4px 0 0;
+			}
+
+			&__selected {
+				padding: 0 12px 0 8px;
+			}
+		}
 	}
 }
 </style>

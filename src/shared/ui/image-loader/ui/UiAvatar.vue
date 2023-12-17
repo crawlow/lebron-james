@@ -21,8 +21,7 @@ const uploadFile = (e: Event) => {
 	const file = (e.target as HTMLInputElement).files[0]
 	if (!file) return false
 	const form = new FormData()
-	form.append('image', file)
-	console.log(form);
+	form.append('file', file)
 	$file.value.value = null;
 	emit('update', form);
 }
@@ -34,7 +33,7 @@ const uploadFile = (e: Event) => {
 		<div class="ui-avatar-wrapper">
 			<img v-if="url" :src="url" class="ui-avatar__img" />
 			<div class="ui-avatar__placeholder" v-else></div>
-			<input @change="uploadFile($event)" type="file" ref="$file" accept="image/*" hidden />
+			<input @change="uploadFile($event)" type="file" ref="$file" accept="image/png, image/jpeg, image/jpg" hidden />
 		</div>
 	</div>
 </template>

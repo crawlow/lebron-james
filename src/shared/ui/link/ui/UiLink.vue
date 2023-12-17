@@ -1,23 +1,25 @@
 <script lang="ts" setup>
 import { PropType, computed } from 'vue';
-import { RouteLocationRaw } from "vue-router"
+import type { RouteLocationRaw } from "vue-router"
 
-const props = defineProps({
-	to: {
-		type: Object as PropType<RouteLocationRaw | String>,
-	},
-	disabled: {
-		type: Boolean,
-		default: false
-	}
+type Props = {
+	to: RouteLocationRaw | string,
+	disabled?: boolean,
+	decoration?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	decoration: true,
+	disabled: false
 })
+
 const externalLinkRegex = /^(https?:\/\/)?(www\.)?\S+\.\S+/i;
 const isExternalLink = computed(() => typeof props.to === 'string' && externalLinkRegex.test(props.to))
 const externalLink = computed(() => isExternalLink ? (props.to as string) : '/');
 </script>
 
 <template>
-	<span class="ui-link" :class="{ disabled: disabled }">
+	<span class="ui-link" :class="[{ disabled: disabled }, { 'no-decoration': !decoration }]">
 		<a v-if="isExternalLink" :href="externalLink" target="_blank">
 			<slot />
 		</a>
@@ -37,6 +39,12 @@ const externalLink = computed(() => isExternalLink ? (props.to as string) : '/')
 		text-decoration: underline;
 
 		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	&.no-decoration {
+		a {
 			text-decoration: none;
 		}
 	}

@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import PaginationItem from './PaginationItem.vue';
+import debounce from 'lodash.debounce';
 
 const props = defineProps({
 	pages: {
@@ -44,9 +45,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
+const paginationEls = ref(4);
+
 const pagination = computed((): (number | null)[] => {
 	const res = [];
-	const minPaginationElems = 4 + props.rangeSize * 2;
+	const minPaginationElems = paginationEls.value + props.rangeSize * 2;
 
 	let rangeStart = props.pages <= minPaginationElems ? 1 : props.modelValue - props.rangeSize;
 	let rangeEnd =
@@ -122,13 +125,33 @@ const goToNext = () => {
 		emit('update:modelValue', props.modelValue + 1);
 	}
 }
+
+const onResize = () => {
+	debounceOnResize();
+};
+
+const recalcSize = () => {
+	paginationEls.value = window.innerWidth > 767 ? 4 : 3;
+}
+
+const debounceOnResize = debounce(recalcSize);
+
+onMounted(() => {
+	window.addEventListener('resize', onResize)
+	onResize()
+})
+
+onBeforeUnmount(() => {
+	window.removeEventListener('resize', onResize)
+})
+
 </script>
 
 <style scoped lang="scss">
 .ui-pagination {
 	display: flex;
 	flex-flow: row;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	align-items: center;
 	margin: 0;
 	padding: 0;
@@ -142,7 +165,6 @@ const goToNext = () => {
 		width: 40px;
 		height: 40px;
 		cursor: pointer;
-		background-color: #fff;
 		border-radius: 4px;
 
 		&:hover {
@@ -159,6 +181,15 @@ const goToNext = () => {
 
 		&.left {
 			transform: rotate(180deg);
+		}
+	}
+
+	@include media('<tablet') {
+		gap: 8px;
+
+		.pagination-control {
+			width: 28px;
+			height: 28px;
 		}
 	}
 }

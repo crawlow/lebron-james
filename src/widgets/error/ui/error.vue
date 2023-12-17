@@ -22,6 +22,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .error {
+	margin: auto;
 	width: 556px;
 	display: flex;
 	align-items: center;
@@ -33,6 +34,7 @@ const props = defineProps({
 	line-height: 32px;
 	border-radius: 15px;
 	background-color: #fff;
+	padding: 48px 36px;
 
 	&__img {
 		width: 380px;

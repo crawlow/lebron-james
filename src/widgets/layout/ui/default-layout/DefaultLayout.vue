@@ -36,6 +36,8 @@ const showHamburger = ref(false);
 		.main-container {
 			flex-grow: 1;
 			padding: 32px 80px;
+			display: flex;
+			flex-direction: column;
 		}
 	}
 
@@ -46,6 +48,15 @@ const showHamburger = ref(false);
 
 			.main-container {
 				padding: 32px;
+			}
+		}
+	}
+
+	@include media('<tablet') {
+		&__wrapper {
+
+			.main-container {
+				padding: 16px 12px;
 			}
 		}
 	}

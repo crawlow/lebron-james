@@ -4,7 +4,7 @@ import { Notification } from '@/features';
 
 <template>
 	<RouterView />
-	<Notification group="app" position="top-right" />
+	<Notification group="app" :z-index="100" position="top-right" />
 </template>
 
 <style lang="scss">
