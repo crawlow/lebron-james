@@ -1,16 +1,14 @@
 import { api } from '@/shared';
 import { defineStore } from 'pinia';
-import { RequestTeamsModel, TeamModel } from '../models';
+import { RequestTeamsModel, TeamModel, TeamListModel } from '../models';
 import { readonly, ref } from 'vue';
 
 export const useTeamsStore = defineStore('teams-store', () => {
-  const allTeams = ref<Array<TeamModel>>();
-  const getTeams = async (
-    req?: RequestTeamsModel
-  ): Promise<Array<TeamModel>> => {
+  const allTeams = ref<TeamListModel>();
+  const getTeams = async (req?: RequestTeamsModel): Promise<TeamListModel> => {
     return new Promise(async (resolve, reject) => {
       if (!req && allTeams.value) {
-        return resolve(allTeams.value);
+        return resolve(new TeamListModel(allTeams.value));
       }
       try {
         const params = req
@@ -22,11 +20,14 @@ export const useTeamsStore = defineStore('teams-store', () => {
           : undefined;
         const { data } = await api.get('/api/Team/GetTeams', { params });
         if (data && data.data) {
-          const teams = data.data.map((x: any) => new TeamModel(x));
+          const result = new TeamListModel({
+            teams: data.data.map((x: any) => new TeamModel(x)),
+            count: data.count,
+          });
           if (!req && !allTeams.value) {
-            allTeams.value = teams;
+            allTeams.value = result;
           }
-          return resolve(teams);
+          return resolve(result);
         }
       } catch (e) {
         console.log('e', e);

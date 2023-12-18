@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { RequestTeamsModel, TeamModel } from "@/entities";
+import { RequestTeamsModel, TeamListModel } from "@/entities";
 import { FilterList, PaginationModel, PaginationPage, TeamCard } from "@/features"
 import { Error, ErrorModel } from "@/widgets";
 import Dank from "@/shared/assets/img/illlustrations/dank.svg";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useTeamsStore } from "@/entities";
 import { useRouter } from "vue-router";
 
 const { getTeams } = useTeamsStore();
 const router = useRouter();
-const teamsList = ref<Array<TeamModel>>()
+const teamsList = ref<TeamListModel>()
 const notFound = ref<ErrorModel>(new ErrorModel({
 	description: 'Add new teams to continue',
 	img: Dank
@@ -20,6 +20,9 @@ const page = ref(new PaginationModel({
 	size: 6
 }))
 const search = ref('')
+
+const count = computed(() => Math.ceil((teamsList.value?.count || 1) / page.value.size))
+
 const onSearch = async (val: string) => {
 	search.value = val;
 	page.value.page = 1;
@@ -37,7 +40,6 @@ const onPagination = async (val: PaginationModel) => {
 		search: search.value,
 		page: page.value
 	}));
-
 	teamsList.value = res
 }
 
@@ -46,19 +48,19 @@ const onDetail = (id: number) => {
 }
 
 const onAddTeam = () => {
-	router.push({name: 'team'});
+	router.push({ name: 'team' });
 }
 
 </script>
 <template>
 	<FilterList @search="onSearch" @add="onAddTeam" />
 	<div class="list-wrapper">
-		<div class="teams-list" v-if="teamsList && teamsList.length">
-			<TeamCard :card="card" v-for="card in teamsList" @click="onDetail(card.id)" />
+		<div class="teams-list" v-if="teamsList && teamsList.teams && teamsList.teams.length">
+			<TeamCard :card="card" v-for="card in teamsList.teams" @click="onDetail(card.id)" />
 		</div>
 		<Error v-else :error="notFound" />
 	</div>
-	<PaginationPage @update="onPagination" />
+	<PaginationPage v-model:page="page.page" :count="count" @update="onPagination" />
 </template>
 
 <style lang="scss" scoped>

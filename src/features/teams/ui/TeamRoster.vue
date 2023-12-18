@@ -14,16 +14,16 @@ const props = defineProps({
 
 const roster = ref<Array<PlayerModel>>([])
 const route = useRoute();
-const {getPlayers} = usePlayerStore();
+const { getPlayers } = usePlayerStore();
 
 const initRoster = async () => {
 	const teamId = route.params.id ? +route.params.id : undefined;
-	if(teamId) {
+	if (teamId) {
 		const res = await getPlayers({
 			teamIds: [teamId]
 		})
-		if(res) {
-			roster.value = res;
+		if (res) {
+			roster.value = res.players;
 		}
 	}
 }
@@ -39,7 +39,7 @@ const calculateAge = (birthdate: string): number => {
 };
 
 const onClickPlayer = (id: number) => {
-	router.push({name: 'player-detail', params: {id: id}})
+	router.push({ name: 'player-detail', params: { id: id } })
 }
 
 onMounted(async () => {
@@ -108,6 +108,7 @@ onMounted(async () => {
 			&-body {
 				.table-row {
 					transition: 0.15s ease-in-out;
+
 					&:hover {
 						cursor: pointer;
 						background-color: $superlight-gray;
@@ -133,6 +134,7 @@ onMounted(async () => {
 			align-items: center;
 			gap: 10px;
 			padding: 7px 0;
+
 			img {
 				max-height: 38px;
 				border-radius: 50%;

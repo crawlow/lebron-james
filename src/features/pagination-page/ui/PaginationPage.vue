@@ -1,19 +1,31 @@
 <script lang="ts" setup>
 import { UiSelect, UiPagination, SelectOptionModel } from "@/shared";
 import { PaginationModel } from "./../models"
-import { PropType, nextTick, onMounted, ref } from "vue";
+import { PropType, computed, nextTick, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const props = defineProps({
 	count: {
 		type: Number,
 		default: 1
+	},
+	page: {
+		type: Number,
+		default: 1
 	}
 })
-const page = ref(1);
 
-const updateHandler = (val: any) => {
-	updateQuery()
+const innerPage = computed({
+	get: () => props.page,
+	set: (value) => {
+		emit('update:page', value);
+	}
+})
+
+const updateHandler = async (val: number) => {
+	innerPage.value = val;
+	await nextTick();
+	updateQuery();
 }
 
 const selectTwo = ref(new SelectOptionModel({ name: '6', value: 6 }))
@@ -25,18 +37,18 @@ const selectOptionsTwo = ref([
 
 const route = useRoute();
 const router = useRouter();
-const emit = defineEmits(['update']);
+const emit = defineEmits(['update', 'update:page']);
 
 const updateQuery = () => {
 	emit('update', new PaginationModel({
-		page: page.value,
+		page: innerPage.value,
 		size: selectTwo.value.value,
 	}))
 
 
 	router.push({
 		query: {
-			page: page.value + '',
+			page: innerPage.value + '',
 			size: selectTwo.value.name,
 		}
 	})
@@ -47,14 +59,15 @@ const onSelect = async () => {
 	updateQuery();
 }
 
-onMounted(() => {
+onMounted(async () => {
 	if (route.query?.page && typeof route.query?.page === 'string') {
-		page.value = +route.query.page
+		innerPage.value = +route.query.page
 	}
 	if (route.query?.size && typeof route.query?.size === 'string') {
 		selectTwo.value.name = route.query.size
 		selectTwo.value.value = +route.query.size
 	}
+	await nextTick();
 	updateQuery();
 })
 
@@ -62,7 +75,7 @@ onMounted(() => {
 
 <template>
 	<div class="pagination-page">
-		<UiPagination v-model="page" :pages="count" :range-size="1" @update:modelValue="updateHandler"></UiPagination>
+		<UiPagination v-model="innerPage" :pages="count" :range-size="1" @update:modelValue="updateHandler"></UiPagination>
 		<UiSelect :clearable="false" @update:model-value="onSelect" v-model="selectTwo" :options="selectOptionsTwo"></UiSelect>
 	</div>
 </template>

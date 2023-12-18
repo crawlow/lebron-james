@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { FilterPlayers, FilterPlayersModel, PaginationModel, PaginationPage } from '@/features';
-import { PlayerModel, RequestPlayerModel, usePlayerStore } from '@/entities'
+import { PlayerListModel, RequestPlayerModel, usePlayerStore } from '@/entities'
 import Dribbling from "@/shared/assets/img/illlustrations/dribbling.svg";
 
 import { useRouter } from "vue-router";
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Error, ErrorModel } from '@/widgets';
 import PlayerCard from '@/features/player/ui/PlayerCard.vue';
 
 const { getPlayers } = usePlayerStore();
 const router = useRouter();
-const playerList = ref<Array<PlayerModel>>()
+const playerList = ref<PlayerListModel>()
 const notFound = ref<ErrorModel>(new ErrorModel({
 	description: 'Add new players to continue',
 	img: Dribbling
@@ -35,9 +35,7 @@ const onSearch = async (val: FilterPlayersModel) => {
 	playerList.value = res
 }
 
-const onAddPlayer = () => {
-	router.push({name: 'player' });
-}
+const count = computed(() => Math.ceil((playerList.value?.count || 1) / page.value.size))
 
 const onPagination = async (val: PaginationModel) => {
 	page.value.page = val.page;
@@ -51,19 +49,24 @@ const onPagination = async (val: PaginationModel) => {
 	playerList.value = res
 }
 
+const onAddPlayer = () => {
+	router.push({ name: 'player' });
+}
+
 const onDetail = (id: number) => {
 	router.push({ name: 'player-detail', params: { id: id } });
 }
+
 </script>
 <template>
 	<FilterPlayers @search="onSearch" @add="onAddPlayer" />
 	<div class="list-wrapper">
-		<div class="players-list" v-if="playerList && playerList.length">
-			<PlayerCard v-for="card in playerList" :card="card" @click="onDetail(card.id)" />
+		<div class="players-list" v-if="playerList && playerList.players && playerList.players.length">
+			<PlayerCard v-for="card in playerList.players" :card="card" @click="onDetail(card.id)" />
 		</div>
 		<Error v-else :error="notFound" />
 	</div>
-	<PaginationPage @update="onPagination" />
+	<PaginationPage v-model:page="page.page" :count="count" @update="onPagination" />
 </template>
 
 <style lang="scss" scoped>

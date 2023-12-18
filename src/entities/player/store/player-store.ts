@@ -1,21 +1,26 @@
 import { api } from '@/shared';
 import { defineStore } from 'pinia';
 import { RequestPlayerModel } from '../models/RequestPlayerModel';
-import { PlayerModel } from '../models';
+import { PlayerModel, PlayerListModel } from '../models';
 import { readonly, ref } from 'vue';
 
 export const usePlayerStore = defineStore('player-store', () => {
   const positions = ref<Array<string>>();
   const getPlayers = async (
     req: RequestPlayerModel
-  ): Promise<Array<PlayerModel>> => {
+  ): Promise<PlayerListModel> => {
     return new Promise(async (resolve, reject) => {
       try {
         const { data } = await api.get('/api/Player/GetPlayers', {
           params: req,
         });
         if (data && data.data) {
-          return resolve(data.data.map((x: any) => new PlayerModel(x)));
+          return resolve(
+            new PlayerListModel({
+              count: data.count,
+              players: data.data.map((x: any) => new PlayerModel(x)),
+            })
+          );
         }
       } catch (e) {
         console.log('e', e);
