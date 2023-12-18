@@ -26,8 +26,6 @@ const value = computed({
 });
 
 const { getPositions } = usePlayerStore();
-const { positions } = storeToRefs(usePlayerStore());
-const { allTeams } = storeToRefs(useTeamsStore());
 const { getTeams } = useTeamsStore();
 
 const teamOptions = ref<Array<SelectOptionModel>>([]);
@@ -49,7 +47,7 @@ const rules = {
     value: {
         name: { required },
         position: { required },
-        team: { required },
+        player: { required },
         height: { required, numeric },
         weight: { required, numeric },
         birthday: { required },
@@ -62,7 +60,7 @@ const v$ = useVuelidate<any>(
 )
 
 const onCancel = () => {
-    router.push({ name: 'teams' });
+    router.push({ name: 'players' });
 }
 
 const initForm = async () => {
@@ -72,10 +70,18 @@ const initForm = async () => {
             name: x,
             value: i
         }));
+        const findPos = positionOptions.value.find(x => x.name == value.value.position);
+        if(findPos) {
+            position.value = new SelectOptionModel(findPos)
+        }
     }
     const res = await getTeams()
     if (res) {
         teamOptions.value = res.map(x => new SelectOptionModel({ name: x.name, value: x.id }));
+        const findTeam = teamOptions.value.find(x => x.value == value.value.team);
+        if (findTeam) {
+            team.value = new SelectOptionModel(findTeam)
+        }
     }
 }
 
@@ -107,14 +113,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <form class="team-form">
-        <div class="team-form__aside">
+    <form class="player-form">
+        <div class="player-form__aside">
             <UiAvatar :url="value.avatarUrl" @update="loadImage" />
         </div>
-        <div class="team-form__bside">
+        <div class="player-form__bside">
             <UiInput label="Name" :v="v$.value?.name" v-model="value.name" />
             <UiSelect label="Position" :v="v$.value?.position" v-model="position" :options="positionOptions" @update:model-value="onSelectPostion" />
-            <UiSelect label="Team" :v="v$.value?.team" v-model="team" :options="teamOptions" @update:model-value="onSelectTeam" />
+            <UiSelect label="Team" :v="v$.value?.player" v-model="team" :options="teamOptions" @update:model-value="onSelectTeam" />
             <div class="bside bside__double">
                 <UiInput label="Height (cm)" :v="v$.value?.height" v-model="value.height" />
                 <UiInput label="Weight (kg)" :v="v$.value?.weight" v-model.number="value.weight" />
@@ -123,7 +129,7 @@ onMounted(() => {
                 <UiDatepicker label="Birthday" :v="v$.value?.birthday" v-model="date" />
                 <UiInput label="Number" :v="v$.value?.number" v-model.number="value.number" />
             </div>
-            <div class="team-form__actions">
+            <div class="player-form__actions">
                 <UiButton type="secondary" @click.prevent="onCancel">Cancel</UiButton>
                 <UiButton @click.prevent="onSave">Save</UiButton>
             </div>
@@ -131,8 +137,8 @@ onMounted(() => {
     </form>
 </template>
 
-<style lang="scss" setup>
-.team-form {
+<style lang="scss" scoped>
+.player-form {
     display: flex;
     width: 100%;
     padding: 48px 73px;
