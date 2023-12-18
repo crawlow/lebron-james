@@ -2,6 +2,7 @@
 import { PropType, computed, ref } from "vue";
 import { SelectOptionModel } from "./../models";
 import { UiScroll } from "@/shared/ui/scroll"
+import { ErrorMessage } from "../../error-message";
 const props = defineProps({
 	modelValue: {
 		type: Object as PropType<SelectOptionModel>
@@ -20,7 +21,17 @@ const props = defineProps({
 	countVisibleOptions: {
 		type: Number,
 		default: 5
-	}
+	},
+	label: {
+		type: String,
+		default: ''
+	},
+	v: {
+		type: Object,
+		default: {
+			$error: null
+		}
+	},
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -60,7 +71,8 @@ const clearValue = () => {
 
 <template>
 	<div class="ui-select" ref="$select" :class="{ default: !clearable }">
-		<div class="ui-select__container" @click.stop="toggleOptions">
+		<label v-if="label" class="ui-select__label">{{ label }}</label>
+		<div class="ui-select__container" @click.stop="toggleOptions" :class="{ error: v.$error }">
 			<div class="ui-select__selected" v-if="value">{{ value.name }}</div>
 			<div class="ui-select__placeholder" v-else>{{ placeholder }}</div>
 			<div class="ui-select__clear" v-if="clearable && value?.value" @click.stop="clearValue"></div>
@@ -76,12 +88,18 @@ const clearValue = () => {
 				</UiScroll>
 			</div>
 		</Transition>
+		<ErrorMessage v-if="v.$error" :v="v" />
 	</div>
 </template>
 
 <style lang="scss" scoped>
 .ui-select {
 	position: relative;
+	&__label {
+		font-size: 14px;
+		margin-bottom: 6px;
+		display: inline-block;
+	}
 
 	&:hover {
 		.ui-select__container {

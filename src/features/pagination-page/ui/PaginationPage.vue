@@ -13,7 +13,6 @@ const props = defineProps({
 const page = ref(1);
 
 const updateHandler = (val: any) => {
-	console.log('updateHandler', val);
 	updateQuery()
 }
 
@@ -44,7 +43,6 @@ const updateQuery = () => {
 }
 
 const onSelect = async () => {
-	console.log('12345');
 	await nextTick();
 	updateQuery();
 }

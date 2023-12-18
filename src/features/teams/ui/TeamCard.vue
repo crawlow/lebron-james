@@ -37,6 +37,9 @@ const props = defineProps({
 		max-width: 42%;
 		aspect-ratio: 1;
 		margin: auto;
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
 
 		img {
 			width: 100%;

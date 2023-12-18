@@ -39,10 +39,8 @@ const onSignOut = async () => {
 <template>
 	<nav class="sidebar" :class="{ active: value }">
 		<ul>
-			<li class="menu-item">
-				<span class="sidebar__user">
-					<UserInfo />
-				</span>
+			<li class="sidebar__user">
+				<UserInfo />
 			</li>
 			<li class="menu-item">
 				<RouterLink :to="{ name: 'teams' }" @click.native="onClickOutside">
@@ -89,10 +87,6 @@ const onSignOut = async () => {
 	background-color: #fff;
 	display: flex;
 	padding-top: 80px;
-
-	&__user {
-		display: none;
-	}
 
 	ul {
 		padding: 32px 0;
@@ -151,6 +145,10 @@ const onSignOut = async () => {
 				}
 			}
 		}
+	}
+
+	&__user {
+		display: none;
 	}
 
 	@include media('<desktop') {
@@ -215,11 +213,12 @@ const onSignOut = async () => {
 						}
 					}
 
-					.sidebar__user {
+				}
+				.sidebar__user {
+					padding-left: 16px;
 
-						.user-info {
-							flex-direction: row-reverse;
-						}
+					.user-info {
+						flex-direction: row-reverse;
 					}
 				}
 			}

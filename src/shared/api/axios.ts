@@ -39,5 +39,5 @@ api.interceptors.response.use(
 );
 
 export const noAuthApi = axios.create({
-  baseURL: 'http://dev.trainee.dex-it.ru',
+  baseURL: process.env?.VUE_APP_STATISTICS_URL,
 });

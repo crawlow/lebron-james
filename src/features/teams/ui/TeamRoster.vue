@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { PlayerModel } from '@/entities';
+import router from '@/app/router';
+import { PlayerModel, usePlayerStore } from '@/entities';
 import { onMounted, ref } from 'vue';
-import { BolBol1, BolBol2, BolBol3, BolBol4, BolBol5, BolBol6, BolBol7 } from "@/shared/assets/img/roster"
+import { useRoute } from 'vue-router';
 
 
 const props = defineProps({
@@ -12,94 +13,37 @@ const props = defineProps({
 });
 
 const roster = ref<Array<PlayerModel>>([])
+const route = useRoute();
+const {getPlayers} = usePlayerStore();
 
 const initRoster = async () => {
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol1,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol2,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol3,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol4,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol5,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
-	roster.value.push(new PlayerModel({
-		avatarUrl: BolBol6,
-		birthday: new Date('01.01.2022'),
-		height: 218,
-		id: 1521,
-		name: 'Bol Bol',
-		number: 10,
-		position: 'Centerforward',
-		team: 551,
-		teamName: 'Denver Nuggets',
-		weight: 100
-	}));
+	const teamId = route.params.id ? +route.params.id : undefined;
+	if(teamId) {
+		const res = await getPlayers({
+			teamIds: [teamId]
+		})
+		if(res) {
+			roster.value = res;
+		}
+	}
 }
 
-const calculateAge = (birthdate: Date): number => {
+const calculateAge = (birthdate: string): number => {
+	const date = new Date(birthdate);
 	const currentDate = new Date();
 	const age =
 		currentDate.getFullYear() -
-		birthdate.getFullYear() -
-		(currentDate < new Date(currentDate.getFullYear(), birthdate.getMonth(), birthdate.getDate()) ? 1 : 0);
+		date.getFullYear() -
+		(currentDate < new Date(currentDate.getFullYear(), date.getMonth(), date.getDate()) ? 1 : 0);
 	return age;
 };
 
+const onClickPlayer = (id: number) => {
+	router.push({name: 'player-detail', params: {id: id}})
+}
+
 onMounted(async () => {
-	// GET PLAYERS
-	await initRoster();
+	initRoster();
 })
 
 </script>
@@ -118,7 +62,7 @@ onMounted(async () => {
 				</div>
 			</div>
 			<div class="table-body">
-				<div class="table-row" v-for="player in roster">
+				<div class="table-row" @click="onClickPlayer(player.id)" v-for="player in roster">
 					<div class="table-col">{{ player.number }}</div>
 					<div class="table-col">
 						<div class="player">
@@ -161,6 +105,16 @@ onMounted(async () => {
 				}
 			}
 
+			&-body {
+				.table-row {
+					transition: 0.15s ease-in-out;
+					&:hover {
+						cursor: pointer;
+						background-color: $superlight-gray;
+					}
+				}
+			}
+
 			&-row {
 				display: grid;
 				grid-template-columns: 60px 1fr 128px 120px 28px;
@@ -179,6 +133,10 @@ onMounted(async () => {
 			align-items: center;
 			gap: 10px;
 			padding: 7px 0;
+			img {
+				max-height: 38px;
+				border-radius: 50%;
+			}
 
 			&-info {
 				display: flex;

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { FilterTeamsModel, TeamModel } from "@/entities";
-import { FilterTeams, PaginationModel, PaginationPage, TeamCard } from "@/features"
+import { RequestTeamsModel, TeamModel } from "@/entities";
+import { FilterList, PaginationModel, PaginationPage, TeamCard } from "@/features"
 import { Error, ErrorModel } from "@/widgets";
 import Dank from "@/shared/assets/img/illlustrations/dank.svg";
 import { ref } from "vue";
@@ -21,10 +21,9 @@ const page = ref(new PaginationModel({
 }))
 const search = ref('')
 const onSearch = async (val: string) => {
-	console.log('search', val);
 	search.value = val;
 	page.value.page = 1;
-	const res = await getTeams(new FilterTeamsModel({
+	const res = await getTeams(new RequestTeamsModel({
 		search: search.value,
 		page: page.value
 	}));
@@ -34,11 +33,10 @@ const onSearch = async (val: string) => {
 const onPagination = async (val: PaginationModel) => {
 	page.value.page = val.page;
 	page.value.size = val.size;
-	const res = await getTeams(new FilterTeamsModel({
+	const res = await getTeams(new RequestTeamsModel({
 		search: search.value,
 		page: page.value
 	}));
-	console.log('getTeams res', res);
 
 	teamsList.value = res
 }
@@ -47,9 +45,13 @@ const onDetail = (id: number) => {
 	router.push({ name: 'team-detail', params: { id: id } });
 }
 
+const onAddTeam = () => {
+	router.push({name: 'team'});
+}
+
 </script>
 <template>
-	<FilterTeams @search="onSearch" />
+	<FilterList @search="onSearch" @add="onAddTeam" />
 	<div class="list-wrapper">
 		<div class="teams-list" v-if="teamsList && teamsList.length">
 			<TeamCard :card="card" v-for="card in teamsList" @click="onDetail(card.id)" />
@@ -69,6 +71,7 @@ const onDetail = (id: number) => {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 24px;
+		flex-grow: 1;
 
 		@include media('>large-desktop') {
 			gap: 48px;

@@ -44,7 +44,6 @@ const deleteTeamById = async () => {
 
 onMounted(async () => {
 	if (route.params.id) {
-		console.log('getById');
 		getTeamById(+route.params.id)
 	} else {
 		router.push({ name: 'teams' });

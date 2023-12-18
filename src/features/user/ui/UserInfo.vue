@@ -33,4 +33,17 @@ const avatarUrl = computed(() => currentUser.value?.avatarUrl || ProfilePlacehol
 		font-size: 15px;
 	}
 }
+.sidebar__user {
+	.user-info {
+		&__name {
+			width: 60px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			@include media('<desktop') {
+				width: 100px;
+			}
+		}
+	}
+}
 </style>

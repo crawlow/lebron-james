@@ -6,7 +6,7 @@ import debounce from "lodash.debounce"
 
 const router = useRouter();
 
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'add']);
 
 const search = ref('')
 
@@ -17,18 +17,20 @@ const onUpdateValue = (value: string) => {
 const debounceSearch = debounce(onUpdateValue, 1000)
 
 const onAddTeam = () => {
-	router.push({ name: 'team' })
+	emit('add');
 }
 
 </script>
 
 <template>
-	<div class="filter-teams">
-		<div class="filter-teams__item">
+	<div class="filter-list">
+		<div class="filter-list__item">
 			<UiInput v-model="search" placeholder="Search..." is-search @update:model-value="debounceSearch" />
 		</div>
-		<div class="filter-teams__item"></div>
-		<div class="filter-teams__item">
+		<div class="filter-list__item">
+			<slot />
+		</div>
+		<div class="filter-list__item">
 			<div class="add-btn">
 				<UiButton @click="onAddTeam">Add <template #right>+</template></UiButton>
 			</div>
@@ -37,7 +39,7 @@ const onAddTeam = () => {
 </template>
 
 <style lang="scss" scoped>
-.filter-teams {
+.filter-list {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 24px;

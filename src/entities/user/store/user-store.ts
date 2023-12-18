@@ -5,7 +5,6 @@ import { UserModel } from '../models';
 export const useUserStore = defineStore('user-store', () => {
   const currentUser = ref<UserModel>();
   const getCurrentUser = () => {
-    console.log('getCurrentUser');
     const user = localStorage.getItem('user');
     if (user) {
       setUser(new UserModel(JSON.parse(user)));

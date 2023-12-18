@@ -4,7 +4,7 @@ import { UiAvatar, UiButton, UiInput } from '@/shared';
 import useVuelidate from '@vuelidate/core';
 import { PropType, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { required } from "@vuelidate/validators";
+import { required, numeric } from "@vuelidate/validators";
 
 const router = useRouter();
 
@@ -23,20 +23,10 @@ const value = computed({
 	}
 });
 
-/**
- * 
- * name: string;
-	foundationYear: number;
-	division: string;
-	conference: string;
-	imageUrl: string;
- * 
- */
-
 const rules = {
 	value: {
 		name: { required },
-		foundationYear: { required },
+		foundationYear: { required, numeric },
 		division: { required },
 		conference: { required }
 	}
@@ -51,7 +41,6 @@ const onCancel = () => {
 }
 
 const onSave = () => {
-	console.log('saveForm');
 	v$.value.$touch();
 	if (v$.value.$invalid) return;
 	emit('save');

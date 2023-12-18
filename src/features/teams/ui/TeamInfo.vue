@@ -71,6 +71,7 @@ const props = defineProps({
 	&__field {
 		display: flex;
 		flex-direction: column;
+		gap: 8px;
 
 		.field-label {
 			font-weight: 800;
@@ -81,6 +82,7 @@ const props = defineProps({
 		.field-value {
 			font-size: 18px;
 			font-weight: 500;
+			line-height: 25px;
 		}
 	}
 

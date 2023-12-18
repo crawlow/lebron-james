@@ -1,13 +1,13 @@
 export class PlayerModel {
   name: string;
-  number: Number;
+  number: number;
   position: string;
-  team: Number;
-  birthday: Date;
-  height: Number;
-  weight: Number;
+  team: number;
+  birthday: string;
+  height: number;
+  weight: number;
   avatarUrl: string;
-  id: Number;
+  id: number;
   teamName: string;
   constructor(obj?: Partial<PlayerModel>) {
     if (obj) {

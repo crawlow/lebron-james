@@ -18,7 +18,6 @@ const onSave = async () => {
 	try {
 		const res = currentTeam.value.id ? await updateTeam(currentTeam.value) : await addTeam(currentTeam.value);
 		if (res) {
-			console.log('res');
 			router.push({ name: 'teams' });
 		}
 	} catch (e) {
@@ -39,9 +38,8 @@ const getTeamById = async (id: number) => {
 
 onMounted(async () => {
 	if (route.params.id) {
-		breadcrumbs.value.push({ text: 'Edit team' })
-		console.log('getById');
-		getTeamById(+route.params.id)
+		await getTeamById(+route.params.id)
+		breadcrumbs.value.push({ text: currentTeam.value.name })
 	} else {
 		breadcrumbs.value.push({ text: 'Add new team' })
 	}

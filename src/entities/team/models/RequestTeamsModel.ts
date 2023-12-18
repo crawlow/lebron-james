@@ -1,9 +1,9 @@
 import { PaginationModel } from '@/features';
 
-export class FilterTeamsModel {
+export class RequestTeamsModel {
   search: string;
   page: PaginationModel = new PaginationModel();
-  constructor(obj?: Partial<FilterTeamsModel>) {
+  constructor(obj?: Partial<RequestTeamsModel>) {
     if (obj) {
       Object.assign(this, obj);
     }

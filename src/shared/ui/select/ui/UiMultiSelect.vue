@@ -24,7 +24,7 @@ const props = defineProps({
 	}
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 const value = computed({
 	get: () => props.modelValue,
 	set: (value) => {
@@ -66,6 +66,9 @@ const toggleOptions = () => {
 	const positionDoc = document.documentElement.clientHeight;
 	isOpenTop.value = (positionEl + maxHeight.value) < positionDoc;
 	isShowOptions.value = !isShowOptions.value;
+	if(!isShowOptions.value) {
+		emit('change');
+	}
 }
 
 const onClickOption = (option: SelectOptionModel) => {
@@ -76,8 +79,7 @@ const onClickOption = (option: SelectOptionModel) => {
 	} else {
 		value.value.push(option)
 	}
-	debounceRecalc()
-	toggleOptions()
+	debounceRecalc();
 }
 
 const innerSelectedValue = computed(() => hiddenSelectedOptions.value ? [...value.value].slice(0, - hiddenSelectedOptions.value) : [...value.value])
@@ -135,7 +137,7 @@ onMounted(() => {
 
 <template>
 	<div class="ui-select" ref="$select" :class="{ default: !clearable }">
-		<div class="ui-select__container" @click.stop="toggleOptions">
+		<div class="ui-select__container" :class="{ active: isShowOptions }" @click.stop="toggleOptions">
 			<div class="ui-select__selected" ref="$selectedOptions" v-if="innerSelectedValue && innerSelectedValue.length">
 				<div class="ui-select__selected-option" v-for="(option, index) in innerSelectedValue" :key="option.value">
 					<div class="ui-select__selected-option-text">
@@ -152,11 +154,14 @@ onMounted(() => {
 		</div>
 		<Transition name="ui-select__animation">
 			<div class="ui-select__options" :class="{ top: !isOpenTop }" v-if="isShowOptions" v-click-outside="toggleOptions">
-				<UiScroll :style="{
+				<UiScroll v-if="options && options.length" :style="{
 					maxHeight: maxHeight + 'px',
 				}">
 					<div class="ui-select__option" :class="{ active: isActiveOption(option.value) }" @click="onClickOption(option)" v-for="(option, i) in options" :key="option.value">{{ option.name }}</div>
 				</UiScroll>
+				<div class="empty-options" v-else>
+					Options not found
+				</div>
 			</div>
 		</Transition>
 	</div>
@@ -168,7 +173,7 @@ onMounted(() => {
 
 	&:hover {
 		.ui-select__container {
-			background-color: $lightest-gray;
+			background-color: #fff;
 			border-color: $lightest-gray;
 		}
 
@@ -180,7 +185,7 @@ onMounted(() => {
 	}
 
 	&__container {
-		background-color: $superlight-gray;
+		background-color: #fff;
 		border: 1px solid $superlight-gray;
 		display: flex;
 		align-items: center;
@@ -189,8 +194,7 @@ onMounted(() => {
 		transition: 0.15s ease-in-out;
 		border-radius: 4px;
 		cursor: pointer;
-
-		&:focus {
+		&.active {
 			box-shadow: 0px 0px 5px 0px #D9D9D9;
 		}
 
@@ -214,6 +218,12 @@ onMounted(() => {
 
 		&.top {
 			bottom: 52px;
+		}
+		.empty-options {
+			height: 48px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
@@ -270,6 +280,7 @@ onMounted(() => {
 			line-height: 16px;
 			align-items: center;
 			color: #fff;
+			white-space: nowrap;
 
 			&.active {
 				background-color: $dark-red;

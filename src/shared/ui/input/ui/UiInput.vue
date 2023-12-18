@@ -63,7 +63,7 @@ const isShowPassword = ref(false);
 			</span>
 			<span v-if="isSearch" class="ui-input__search">
 				<img v-if="value" :src="Close" @click="value = ''" />
-				<img v-else class="i-search" :src="Search" />
+				<img v-else class="i-search" @click="emit('update:modelValue')" :src="Search" />
 			</span>
 		</div>
 		<ErrorMessage v-if="v.$error" :v="v" />
@@ -103,7 +103,7 @@ const isShowPassword = ref(false);
 			cursor: pointer;
 
 			&.i-search {
-				cursor: auto;
+				cursor: pointer;
 			}
 
 			&:hover {

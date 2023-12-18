@@ -7,9 +7,13 @@ const { signIn } = useAuthStore();
 const router = useRouter();
 
 const onSignIn = async (data: AuthModel) => {
-	const res = await signIn(data);
-	if (res) {
-		router.push({ name: 'teams' });
+	try {
+		const res = await signIn(data);
+		if (res) {
+			router.push({ name: 'teams' });
+		}
+	} catch(e) {
+		console.log('e', e);		
 	}
 }
 

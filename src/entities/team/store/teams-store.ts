@@ -1,27 +1,32 @@
 import { api } from '@/shared';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { FilterTeamsModel, TeamModel } from '../models';
-import { NotificationBus } from '@/features';
+import { RequestTeamsModel, TeamModel } from '../models';
+import { readonly, ref } from 'vue';
 
 export const useTeamsStore = defineStore('teams-store', () => {
-  const getTeams = async (req: FilterTeamsModel): Promise<Array<TeamModel>> => {
+  const allTeams = ref<Array<TeamModel>>();
+  const getTeams = async (
+    req?: RequestTeamsModel
+  ): Promise<Array<TeamModel>> => {
     return new Promise(async (resolve, reject) => {
+      if (!req && allTeams.value) {
+        return resolve(allTeams.value);
+      }
       try {
-        const { data } = await api.get('/api/Team/GetTeams', {
-          params: {
-            PageSize: req.page.size,
-            Page: req.page.page,
-            Name: req.search,
-          },
-        });
+        const params = req
+          ? {
+              PageSize: req.page.size,
+              Page: req.page.page,
+              Name: req.search,
+            }
+          : undefined;
+        const { data } = await api.get('/api/Team/GetTeams', { params });
         if (data && data.data) {
-          console.log(
-            '11',
-            data.data.map((x: any) => new TeamModel(x))
-          );
-
-          return resolve(data.data.map((x: any) => new TeamModel(x)));
+          const teams = data.data.map((x: any) => new TeamModel(x));
+          if (!req && !allTeams.value) {
+            allTeams.value = teams;
+          }
+          return resolve(teams);
         }
       } catch (e) {
         console.log('e', e);
@@ -34,7 +39,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
       try {
         const { data } = await api.post('/api/Team/Add', req);
         if (data) {
-          console.log('AddTeam', data);
+          allTeams.value = undefined;
         }
         return resolve(true);
       } catch (e) {
@@ -48,7 +53,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
       try {
         const { data } = await api.put('/api/Team/Update', req);
         if (data) {
-          console.log('AddTeam', data);
+          allTeams.value = undefined;
         }
         return resolve(true);
       } catch (e) {
@@ -65,9 +70,6 @@ export const useTeamsStore = defineStore('teams-store', () => {
             id: id,
           },
         });
-        if (data) {
-          console.log('getTeam', data);
-        }
         return resolve(data);
       } catch (e) {
         console.log('e', e);
@@ -84,7 +86,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
           },
         });
         if (data) {
-          console.log('getTeam', data);
+          allTeams.value = undefined;
         }
         return resolve(true);
       } catch (e) {
@@ -94,6 +96,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
     });
   };
   return {
+    allTeams: readonly(allTeams),
     getTeams,
     addTeam,
     updateTeam,
