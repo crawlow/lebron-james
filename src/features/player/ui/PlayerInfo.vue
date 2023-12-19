@@ -15,17 +15,12 @@ const props = defineProps({
 const { allTeams } = storeToRefs(useTeamsStore());
 
 const teamName = computed(() => {
-	console.log('teamName 1');
-
 	if (allTeams.value) {
-		console.log('teamName 2');
 		const findTeam = allTeams.value.teams.find(x => x.id == props.player.team);
 		if (findTeam) {
-			console.log('teamName 3');
 			return findTeam.name;
 		}
 	}
-	console.log('teamName 4');
 	return 'No team';
 })
 
