@@ -1,4 +1,5 @@
 import { NotificationBus, NotificationMessage } from '@/shared';
+import router from '@/app/router';
 import axios from 'axios';
 
 export const api = axios.create({
@@ -26,14 +27,14 @@ api.interceptors.response.use(
   },
   (error) => {
     // Общий обработчик ошибок для всех запросов
-    console.log('error', error);
-
+    let errorMessage = error.response?.data?.title ?? error.response?.data;
+    if (!errorMessage) {
+      errorMessage = error.message;
+      localStorage.removeItem('user');
+      location.href = '/';
+    }
     const notification = new NotificationBus();
-    notification.Show(
-      NotificationMessage.Error(
-        error.response?.data?.title || error.response?.data
-      )
-    );
+    notification.Show(NotificationMessage.Error(errorMessage));
     return Promise.reject(error);
   }
 );
