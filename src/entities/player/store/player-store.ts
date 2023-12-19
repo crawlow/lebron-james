@@ -13,6 +13,9 @@ export const usePlayerStore = defineStore('player-store', () => {
       try {
         const { data } = await api.get('/api/Player/GetPlayers', {
           params: req,
+          paramsSerializer: {
+            indexes: true,
+          },
         });
         if (data && data.data) {
           return resolve(
