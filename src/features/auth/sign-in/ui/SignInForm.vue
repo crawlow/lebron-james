@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { UiButton, UiInput, UiLink } from "@/shared"
+import { UiButton, UiCheckbox, UiInput, UiLink } from "@/shared"
 import { AuthModel } from "@/entities";
 import { ref } from "vue";
 import useVuelidate from "@vuelidate/core";
@@ -14,7 +14,7 @@ const rules = {
 	data: {
 		login: { required },
 		password: { required, minLengthValue: minLength(8) },
-	}
+	},
 }
 const v$ = useVuelidate<any>(
 	rules,

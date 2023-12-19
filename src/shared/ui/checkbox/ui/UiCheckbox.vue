@@ -38,7 +38,6 @@ const value = computed({
 
 <style lang="scss" scoped>
 .ui-checkbox {
-	margin-left: 12px;
 	display: flex;
 	flex-direction: column;
 

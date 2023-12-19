@@ -15,5 +15,6 @@ import { Notification } from '@/features';
 
 html {
 	background-color: $superlight-gray;
+	color: $gray;
 }
 </style>

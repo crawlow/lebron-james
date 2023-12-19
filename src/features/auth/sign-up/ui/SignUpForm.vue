@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { UiButton, UiInput, UiLink } from "@/shared"
+import { UiButton, UiCheckbox, UiInput, UiLink } from "@/shared"
 import { RegisterModel } from "@/entities";
 import { computed, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, sameAs } from "@vuelidate/validators";
+import { required, minLength, sameAs, helpers } from "@vuelidate/validators";
 
 const emit = defineEmits<{
 	(eventName: "signUp", value: RegisterModel): void;
 }>();
 const confirmPassword = ref('')
+const isAgreement = ref(false);
 const data = ref(new RegisterModel());
 const rules = {
 	data: {
@@ -19,11 +20,15 @@ const rules = {
 	confirmPassword: {
 		required,
 		sameAsPassword: sameAs(computed(() => data.value.password))
+	},
+	isAgreement: {
+		sameAs: helpers.withMessage(
+			() => `Agreements must be accepted`, sameAs(true))
 	}
 }
 const v$ = useVuelidate<any>(
 	rules,
-	{ data, confirmPassword }
+	{ data, confirmPassword, isAgreement }
 )
 const signUp = () => {
 	v$.value.$touch();
@@ -41,6 +46,7 @@ const signUp = () => {
 		<UiInput v-model="data.login" :v="v$.data.login" label="Login" />
 		<UiInput v-model="data.password" :v="v$.data.password" label="Password" type="password" />
 		<UiInput v-model="confirmPassword" :v="v$.confirmPassword" label="Enter your password again" type="password" />
+		<UiCheckbox :v="v$.isAgreement" v-model="isAgreement">I accept the agreement</UiCheckbox>
 		<UiButton @click.prevent="signUp">Sign Up</UiButton>
 		<div class="sign-in__register">
 			Allready a member?
