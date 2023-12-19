@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { AuthModel, RegisterModel } from '../models';
 import { noAuthApi } from '@/shared';
-import { NotificationBus, NotificationMessage } from '@/features';
+import { NotificationBus, NotificationMessage } from '@/shared';
 import { UserModel, useUserStore } from '@/entities/user';
 const notification = new NotificationBus();
 

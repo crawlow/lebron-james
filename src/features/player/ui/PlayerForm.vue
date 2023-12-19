@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { PlayerModel, loadFile, useTeamsStore } from '@/entities';
-import { SelectOptionModel, UiAvatar, UiButton, UiDatepicker, UiInput, UiSelect } from '@/shared';
+import { SelectOptionModel, UiAvatar, UiButton, UiDatepicker, UiInput, UiSelect, NotificationBus, NotificationMessage } from '@/shared';
 import useVuelidate from '@vuelidate/core';
 import { PropType, computed, onMounted, ref, watch } from 'vue';
-import { NotificationBus, NotificationMessage } from '@/features';
 import { useRouter } from 'vue-router';
 import { required, numeric } from "@vuelidate/validators";
 import { usePlayerStore } from '@/entities';

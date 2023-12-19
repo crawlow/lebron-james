@@ -1,4 +1,4 @@
-import { NotificationBus, NotificationMessage } from '@/features';
+import { NotificationBus, NotificationMessage } from '@/shared';
 import axios from 'axios';
 
 export const api = axios.create({

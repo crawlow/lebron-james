@@ -14,3 +14,4 @@ export * from './auth-layout';
 export * from './page-template';
 export * from './error';
 export * from './modal-window';
+export * from './notification';

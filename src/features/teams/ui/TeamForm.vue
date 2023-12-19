@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { TeamModel, loadFile } from '@/entities';
-import { UiAvatar, UiButton, UiInput } from '@/shared';
+import { UiAvatar, UiButton, UiInput, NotificationBus, NotificationMessage } from '@/shared';
 import useVuelidate from '@vuelidate/core';
 import { PropType, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { required, numeric } from "@vuelidate/validators";
-import { NotificationBus, NotificationMessage } from '@/features/notification';
 
 const router = useRouter();
 

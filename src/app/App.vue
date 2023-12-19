@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Notification } from '@/features';
+import { Notification } from '@/shared';
 </script>
 
 <template>
