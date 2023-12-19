@@ -60,7 +60,7 @@ watch(() => props.modelValue, () => {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(65, 65, 65, 0.6);
 	display: none;
 	z-index: 999;
 	font-family: 'Avenir';
