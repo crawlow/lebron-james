@@ -52,7 +52,10 @@ const props = defineProps({
 	@include media("<tablet") {
 		font-size: 15px;
 		line-height: 24px;
-		max-width: 100%;
+		max-width: auto;
+		flex-grow: 1;
+		margin: 0 -16px;
+		border-radius: 0;
 
 		&__img {
 			width: 275px;

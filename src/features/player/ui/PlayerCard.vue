@@ -2,6 +2,7 @@
 import { PlayerModel, useTeamsStore } from '@/entities';
 import { storeToRefs } from 'pinia';
 import { PropType, computed } from 'vue';
+import Person from '@/shared/assets/img/icons/person.svg';
 
 
 const props = defineProps({
@@ -27,7 +28,7 @@ const teamName = computed(() => {
 <template>
 	<div class="player-card">
 		<div class="player-card__image">
-			<img v-if="card.avatarUrl" :src="card.avatarUrl" />
+			<img :src="card.avatarUrl || Person" />
 		</div>
 		<div class="player-card__info">
 			<div class="team-name">{{ card.name }} <span class="team-name__number">#{{ card.number }}</span></div>

@@ -61,13 +61,15 @@ const loadImage = async (data: FormData) => {
 			<UiAvatar :url="value.imageUrl" @update="loadImage" />
 		</div>
 		<div class="team-form__bside">
-			<UiInput label="Name" :v="v$.value?.name" v-model="value.name" />
-			<UiInput label="Division" :v="v$.value?.division" v-model="value.division" />
-			<UiInput label="Conference" :v="v$.value?.conference" v-model="value.conference" />
-			<UiInput label="Year of foundation" :v="v$.value?.foundationYear" v-model.number="value.foundationYear" />
-			<div class="team-form__actions">
-				<UiButton type="secondary" @click.prevent="onCancel">Cancel</UiButton>
-				<UiButton @click.prevent="onSave">Save</UiButton>
+			<div class="team-form__bside-wrap">
+				<UiInput label="Name" :v="v$.value?.name" v-model="value.name" />
+				<UiInput label="Division" :v="v$.value?.division" v-model="value.division" />
+				<UiInput label="Conference" :v="v$.value?.conference" v-model="value.conference" />
+				<UiInput label="Year of foundation" :v="v$.value?.foundationYear" v-model.number="value.foundationYear" />
+				<div class="team-form__actions">
+					<UiButton type="secondary" @click.prevent="onCancel">Cancel</UiButton>
+					<UiButton @click.prevent="onSave">Save</UiButton>
+				</div>
 			</div>
 		</div>
 	</form>
@@ -78,7 +80,8 @@ const loadImage = async (data: FormData) => {
 	display: flex;
 	width: 100%;
 	padding: 48px 73px;
-	flex-wrap: wrap;
+	color: $gray;
+	gap: 32px;
 
 	&__aside {
 		min-width: 336px;
@@ -88,8 +91,17 @@ const loadImage = async (data: FormData) => {
 		display: flex;
 		flex-direction: column;
 		gap: 24px;
-		margin: 0 136px;
+		align-items: center;
 		flex-grow: 1;
+		width: 100%;
+
+		&-wrap {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+			max-width: 336px;
+			width: 100%;
+		}
 	}
 
 	&__actions {
@@ -99,6 +111,32 @@ const loadImage = async (data: FormData) => {
 		gap: 24px;
 
 		.ui-button {
+			width: 100%;
+		}
+	}
+
+	@include media('<desktop') {
+		&__aside {
+			min-width: auto;
+			max-width: 336px;
+			width: 100%;
+
+			.ui-avatar {
+				img {
+					max-width: 80%;
+					max-height: 80%;
+				}
+			}
+
+		}
+	}
+
+	@include media('<tablet') {
+		flex-direction: column;
+		align-items: center;
+		padding: 48px 8px;
+
+		&__bside {
 			width: 100%;
 		}
 	}

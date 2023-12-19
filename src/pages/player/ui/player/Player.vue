@@ -8,31 +8,23 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 const { addPlayer, updatePlayer, getPlayer } = usePlayerStore();
 
-const currentPlayer = ref(new PlayerModel())
+const currentPlayer = ref<PlayerModel>(new PlayerModel())
 
 const route = useRoute();
 
 const breadcrumbs = ref<Array<BreadcrumbsModel>>([new BreadcrumbsModel({ text: 'Players', to: '/players' })]);
 
 const onSave = async () => {
-	try {
-		const res = currentPlayer.value.id ? await updatePlayer(currentPlayer.value) : await addPlayer(currentPlayer.value);
-		if (res) {
-			router.push({ name: 'players' });
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = currentPlayer.value.id ? await updatePlayer(currentPlayer.value) : await addPlayer(currentPlayer.value);
+	if (res) {
+		router.push({ name: 'players' });
 	}
 }
 
 const getPlayerById = async (id: number) => {
-	try {
-		const res = await getPlayer(id);
-		if (res) {
-			currentPlayer.value = res;
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = await getPlayer(id);
+	if (res) {
+		currentPlayer.value = res;
 	}
 }
 

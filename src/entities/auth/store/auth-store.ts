@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import { AuthModel, RegisterModel } from '../models';
 import { noAuthApi } from '@/shared';
 import { NotificationBus, NotificationMessage } from '@/features';
@@ -22,7 +21,7 @@ export const useAuthStore = defineStore('auth-store', () => {
             'User with the specified username / password was not found.'
           )
         );
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -37,7 +36,7 @@ export const useAuthStore = defineStore('auth-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };

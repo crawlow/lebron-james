@@ -7,7 +7,7 @@
 		<div class="page-template-edit__header">
 			<slot name="header" />
 		</div>
-		<div class="page-template-edit__containter">
+		<div class="page-template-edit__container">
 			<slot />
 		</div>
 	</div>
@@ -25,6 +25,15 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 24px 32px;
+	}
+
+	@include media('<tablet') {
+		border-radius: 0;
+		margin: 0 -16px;
+
+		&__header {
+			padding: 16px;
+		}
 	}
 }
 </style>

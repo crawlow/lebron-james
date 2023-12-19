@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { FilterPlayers, FilterPlayersModel, PaginationModel, PaginationPage } from '@/features';
+import { FilterPlayers, FilterPlayersModel, PaginationModel, PaginationPage, PlayerCard } from '@/features';
 import { PlayerListModel, RequestPlayerModel, usePlayerStore } from '@/entities'
+import { Error, ErrorModel } from '@/shared';
 import Dribbling from "@/shared/assets/img/illlustrations/dribbling.svg";
-
 import { useRouter } from "vue-router";
 import { computed, ref } from 'vue';
-import { Error, ErrorModel } from '@/widgets';
-import PlayerCard from '@/features/player/ui/PlayerCard.vue';
 
 const { getPlayers } = usePlayerStore();
 const router = useRouter();

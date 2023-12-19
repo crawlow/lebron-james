@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { UiSelect, UiPagination, SelectOptionModel } from "@/shared";
 import { PaginationModel } from "./../models"
-import { PropType, computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const props = defineProps({

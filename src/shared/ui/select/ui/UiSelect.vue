@@ -95,6 +95,8 @@ const clearValue = () => {
 <style lang="scss" scoped>
 .ui-select {
 	position: relative;
+	color: $gray;
+
 	&__label {
 		font-size: 14px;
 		margin-bottom: 6px;

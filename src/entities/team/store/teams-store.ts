@@ -31,7 +31,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
         }
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(undefined);
       }
     });
   };
@@ -45,7 +45,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -59,7 +59,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -74,7 +74,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
         return resolve(data);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(undefined);
       }
     });
   };
@@ -92,7 +92,7 @@ export const useTeamsStore = defineStore('teams-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };

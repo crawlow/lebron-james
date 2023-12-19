@@ -24,7 +24,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         }
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(undefined);
       }
     });
   };
@@ -37,7 +37,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -50,7 +50,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -68,7 +68,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         return resolve(data);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(undefined);
       }
     });
   };
@@ -85,7 +85,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(false);
       }
     });
   };
@@ -102,7 +102,7 @@ export const usePlayerStore = defineStore('player-store', () => {
         return resolve(data);
       } catch (e) {
         console.log('e', e);
-        return reject(false);
+        return resolve(undefined);
       }
     });
   };

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { TeamModel } from '@/entities';
-import { onMounted, ref } from "vue";
-import { Breadcrumbs, BreadcrumbsModel, PageTemplateEdit } from '@/shared';
+import { computed, onMounted, ref } from "vue";
+import { Breadcrumbs, BreadcrumbsModel, ModalWindow, PageTemplateEdit, UiButton } from '@/shared';
 import { useTeamsStore } from '@/entities';
 import { useRoute, useRouter } from 'vue-router';
 import HeaderActions from '@/shared/ui/page-template/ui/HeaderActions.vue';
@@ -13,14 +13,10 @@ const route = useRoute();
 const router = useRouter();
 
 const getTeamById = async (id: number) => {
-	try {
-		const res = await getTeam(id);
-		if (res) {
-			currentTeam.value = new TeamModel(res);
-			breadcrumbs.value.push({ text: res.name })
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = await getTeam(id);
+	if (res) {
+		currentTeam.value = new TeamModel(res);
+		breadcrumbs.value.push({ text: res.name })
 	}
 }
 
@@ -29,14 +25,9 @@ const onEdit = () => {
 }
 
 const deleteTeamById = async () => {
-	// todo
-	try {
-		const res = await deleteTeam(currentTeam.value.id)
-		if (res) {
-			router.push({ name: 'teams' });
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = await deleteTeam(currentTeam.value.id)
+	if (res) {
+		router.push({ name: 'teams' });
 	}
 
 	router.push({ name: 'teams' });
@@ -49,20 +40,37 @@ onMounted(async () => {
 		router.push({ name: 'teams' });
 	}
 })
+
+const isShowConfirmation = ref(false);
+const modalTitle = computed(() => `Delete team - ${currentTeam.value.name}?`)
+
 </script>
 <template>
 	<PageTemplateEdit>
 		<template #header>
 			<Breadcrumbs :breadcrumbs="breadcrumbs" />
-			<div class="">
-				<HeaderActions @edit="onEdit" @delete="deleteTeamById" />
-			</div>
+			<HeaderActions @edit="onEdit" @delete="isShowConfirmation = true" />
 		</template>
 		<TeamInfo :team="currentTeam" />
 	</PageTemplateEdit>
 	<template v-if="currentTeam.id">
 		<TeamRoster :team-id="currentTeam.id" />
 	</template>
+	<ModalWindow dialog-classes="modal-dialog-auth" :title="modalTitle" v-model="isShowConfirmation">
+		<div class="footer-actions">
+			<UiButton @click="isShowConfirmation = false" type="secondary">Cancel</UiButton>
+			<UiButton @click="deleteTeamById">Delete</UiButton>
+		</div>
+	</ModalWindow>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.footer-actions {
+	display: flex;
+	gap: 24px;
+
+	.ui-button {
+		width: 100%;
+	}
+}
+</style>

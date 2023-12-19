@@ -2,24 +2,30 @@
 import { PlayerModel, loadFile, useTeamsStore } from '@/entities';
 import { SelectOptionModel, UiAvatar, UiButton, UiDatepicker, UiInput, UiSelect } from '@/shared';
 import useVuelidate from '@vuelidate/core';
-import { PropType, computed, onMounted, ref, watch } from 'vue';
+import { PropType, computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { required, numeric } from "@vuelidate/validators";
 import { usePlayerStore } from '@/entities';
-import { storeToRefs } from 'pinia';
+import moment from "moment";
 
 const router = useRouter();
 
 const props = defineProps({
 	modelValue: {
-		type: Object as PropType<PlayerModel>
+		type: Object as PropType<PlayerModel>,
+		default: new PlayerModel()
 	}
 });
 
 const emit = defineEmits(['update:modelValue', 'save']);
 
 const value = computed({
-	get: () => props.modelValue,
+	get: () => {
+		if (props.modelValue.id) {
+			initForm();
+		}
+		return props.modelValue
+	},
 	set: (value) => {
 		emit('update:modelValue', value);
 	}
@@ -78,6 +84,9 @@ const initForm = async () => {
 			team.value = new SelectOptionModel(findTeam)
 		}
 	}
+	if (value.value && value.value.birthday) {
+		date.value = moment(props.modelValue.birthday).add('3', 'hours').toDate();
+	}
 }
 
 const onSave = () => {
@@ -101,8 +110,8 @@ const onSelectTeam = (val: SelectOptionModel) => {
 	value.value.team = val?.value;
 }
 
-onMounted(() => {
-	initForm()
+onMounted(async () => {
+	await initForm();
 })
 
 </script>
@@ -113,20 +122,22 @@ onMounted(() => {
 			<UiAvatar :url="value.avatarUrl" @update="loadImage" />
 		</div>
 		<div class="player-form__bside">
-			<UiInput label="Name" :v="v$.value?.name" v-model="value.name" />
-			<UiSelect label="Position" :v="v$.value?.position" v-model="position" :options="positionOptions" @update:model-value="onSelectPostion" />
-			<UiSelect label="Team" :v="v$.value?.team" v-model="team" :options="teamOptions" @update:model-value="onSelectTeam" />
-			<div class="bside bside__double">
-				<UiInput label="Height (cm)" :v="v$.value?.height" v-model="value.height" />
-				<UiInput label="Weight (kg)" :v="v$.value?.weight" v-model.number="value.weight" />
-			</div>
-			<div class="bside bside__double">
-				<UiDatepicker label="Birthday" :v="v$.value?.birthday" v-model="date" />
-				<UiInput label="Number" :v="v$.value?.number" v-model.number="value.number" />
-			</div>
-			<div class="player-form__actions">
-				<UiButton type="secondary" @click.prevent="onCancel">Cancel</UiButton>
-				<UiButton @click.prevent="onSave">Save</UiButton>
+			<div class="player-form__bside-wrap">
+				<UiInput label="Name" :v="v$.value?.name" v-model="value.name" />
+				<UiSelect label="Position" :v="v$.value?.position" v-model="position" :options="positionOptions" @update:model-value="onSelectPostion" />
+				<UiSelect label="Team" :v="v$.value?.team" v-model="team" :options="teamOptions" @update:model-value="onSelectTeam" />
+				<div class="bside bside__double">
+					<UiInput label="Height (cm)" :v="v$.value?.height" v-model="value.height" />
+					<UiInput label="Weight (kg)" :v="v$.value?.weight" v-model.number="value.weight" />
+				</div>
+				<div class="bside bside__double">
+					<UiDatepicker label="Birthday" :v="v$.value?.birthday" v-model="date" />
+					<UiInput label="Number" :v="v$.value?.number" v-model.number="value.number" />
+				</div>
+				<div class="player-form__actions">
+					<UiButton type="secondary" @click.prevent="onCancel">Cancel</UiButton>
+					<UiButton @click.prevent="onSave">Save</UiButton>
+				</div>
 			</div>
 		</div>
 	</form>
@@ -137,7 +148,8 @@ onMounted(() => {
 	display: flex;
 	width: 100%;
 	padding: 48px 73px;
-	flex-wrap: wrap;
+	color: $gray;
+	gap: 32px;
 
 	&__aside {
 		min-width: 336px;
@@ -147,8 +159,28 @@ onMounted(() => {
 		display: flex;
 		flex-direction: column;
 		gap: 24px;
-		margin: 0 136px;
+		align-items: center;
 		flex-grow: 1;
+		width: 100%;
+
+		&-wrap {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+			max-width: 336px;
+			width: 100%;
+		}
+	}
+
+	&__actions {
+		flex-grow: 1;
+		display: flex;
+		width: 100%;
+		gap: 24px;
+
+		.ui-button {
+			width: 100%;
+		}
 	}
 
 	.bside {
@@ -164,13 +196,28 @@ onMounted(() => {
 		}
 	}
 
-	&__actions {
-		flex-grow: 1;
-		display: flex;
-		width: 100%;
-		gap: 24px;
+	@include media('<desktop') {
+		&__aside {
+			min-width: auto;
+			max-width: 336px;
+			width: 100%;
 
-		.ui-button {
+			.ui-avatar {
+				img {
+					max-width: 80%;
+					max-height: 80%;
+				}
+			}
+
+		}
+	}
+
+	@include media('<tablet') {
+		flex-direction: column;
+		align-items: center;
+		padding: 48px 8px;
+
+		&__bside {
 			width: 100%;
 		}
 	}

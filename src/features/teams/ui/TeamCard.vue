@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { TeamModel } from '@/entities';
 import { PropType } from 'vue';
-
+import GroupPerson from '@/shared/assets/img/icons/group_person.svg';
 
 const props = defineProps({
 	card: {
@@ -14,7 +14,7 @@ const props = defineProps({
 <template>
 	<div class="teams-card">
 		<div class="teams-card__image">
-			<img v-if="card.imageUrl" :src="card.imageUrl" />
+			<img :src="card.imageUrl || GroupPerson" />
 		</div>
 		<div class="teams-card__info">
 			<div class="team-name">{{ card.name }}</div>

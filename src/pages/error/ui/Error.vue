@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Error, ErrorModel } from "@/widgets"
+import { Error, ErrorModel } from "@/shared"
 import { Error404 } from "@/shared/assets/img"
 import { ref } from "vue";
 const error = ref(new ErrorModel({

@@ -12,3 +12,5 @@ export * from './image-loader';
 export * from './datepicker';
 export * from './auth-layout';
 export * from './page-template';
+export * from './error';
+export * from './modal-window';

@@ -30,5 +30,10 @@ const props = defineProps({
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 24px;
+
+	@include media('<tablet') {
+		line-height: 16px;
+		font-size: 13px;
+	}
 }
 </style>

@@ -2,14 +2,12 @@
 import { ref, onMounted } from "vue";
 import { FilterList } from "./../../filter-list";
 import { SelectOptionModel, UiMultiSelect } from '@/shared';
-import { RequestTeamsModel, useTeamsStore } from "@/entities";
+import { useTeamsStore } from "@/entities";
 import { FilterPlayersModel } from "../models";
-import { storeToRefs } from "pinia";
 
 const teamOptions = ref(new Array<SelectOptionModel>());
 const teams = ref(new Array<SelectOptionModel>());
 const filterSearch = ref('');
-const { allTeams } = storeToRefs(useTeamsStore());
 
 const emit = defineEmits(['search', 'add']);
 

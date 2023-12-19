@@ -15,24 +15,16 @@ const route = useRoute();
 const breadcrumbs = ref<Array<BreadcrumbsModel>>([new BreadcrumbsModel({ text: 'Teams', to: '/teams' })]);
 
 const onSave = async () => {
-	try {
-		const res = currentTeam.value.id ? await updateTeam(currentTeam.value) : await addTeam(currentTeam.value);
-		if (res) {
-			router.push({ name: 'teams' });
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = currentTeam.value.id ? await updateTeam(currentTeam.value) : await addTeam(currentTeam.value);
+	if (res) {
+		router.push({ name: 'teams' });
 	}
 }
 
 const getTeamById = async (id: number) => {
-	try {
-		const res = await getTeam(id);
-		if (res) {
-			currentTeam.value = res;
-		}
-	} catch (e) {
-		console.log('e', e);
+	const res = await getTeam(id);
+	if (res) {
+		currentTeam.value = res;
 	}
 }
 

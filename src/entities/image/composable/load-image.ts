@@ -10,7 +10,6 @@ export const loadFile = async (imageFile: FormData): Promise<string> => {
       });
       resolve(process.env.VUE_APP_STATISTICS_URL + data);
     } catch (e) {
-      reject(e);
       console.log('e', e);
     }
   });

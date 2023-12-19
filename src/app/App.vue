@@ -12,4 +12,8 @@ import { Notification } from '@/features';
 	padding: 0;
 	margin: 0;
 }
+
+html {
+	background-color: $superlight-gray;
+}
 </style>

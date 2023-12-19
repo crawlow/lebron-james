@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { RequestTeamsModel, TeamListModel } from "@/entities";
 import { FilterList, PaginationModel, PaginationPage, TeamCard } from "@/features"
-import { Error, ErrorModel } from "@/widgets";
+import { Error, ErrorModel } from "@/shared";
 import Dank from "@/shared/assets/img/illlustrations/dank.svg";
 import { computed, ref } from "vue";
 import { useTeamsStore } from "@/entities";

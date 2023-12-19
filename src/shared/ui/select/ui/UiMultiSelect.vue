@@ -66,7 +66,7 @@ const toggleOptions = () => {
 	const positionDoc = document.documentElement.clientHeight;
 	isOpenTop.value = (positionEl + maxHeight.value) < positionDoc;
 	isShowOptions.value = !isShowOptions.value;
-	if(!isShowOptions.value) {
+	if (!isShowOptions.value) {
 		emit('change');
 	}
 }
@@ -170,6 +170,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .ui-select {
 	position: relative;
+	color: $gray;
 
 	&:hover {
 		.ui-select__container {
@@ -194,6 +195,7 @@ onMounted(() => {
 		transition: 0.15s ease-in-out;
 		border-radius: 4px;
 		cursor: pointer;
+
 		&.active {
 			box-shadow: 0px 0px 5px 0px #D9D9D9;
 		}
@@ -219,6 +221,7 @@ onMounted(() => {
 		&.top {
 			bottom: 52px;
 		}
+
 		.empty-options {
 			height: 48px;
 			display: flex;
