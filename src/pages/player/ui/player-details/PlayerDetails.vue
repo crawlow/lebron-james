@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PlayerModel } from '@/entities';
+import { PlayerModel, useTeamsStore } from '@/entities';
 import { computed, onMounted, ref } from "vue";
 import { Breadcrumbs, BreadcrumbsModel, ModalWindow, PageTemplateEdit, UiButton } from '@/shared';
 import { usePlayerStore } from '@/entities';
@@ -9,11 +9,13 @@ import { PlayerInfo } from '@/features';
 const currentPlayer = ref<PlayerModel>(new PlayerModel())
 const breadcrumbs = ref<Array<BreadcrumbsModel>>([new BreadcrumbsModel({ text: 'Players', to: '/players' })]);
 const { getPlayer, deletePlayer } = usePlayerStore();
+const { getTeams } = useTeamsStore();
 const route = useRoute();
 const router = useRouter();
 
 const getPlayerById = async (id: number) => {
 	const res = await getPlayer(id);
+	getTeams();
 	if (res) {
 		currentPlayer.value = new PlayerModel(res);
 		breadcrumbs.value.push({ text: res.name })
