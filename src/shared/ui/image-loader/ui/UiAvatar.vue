@@ -9,9 +9,19 @@ const props = defineProps({
 
 const emit = defineEmits<{
 	(eventName: "update", value: FormData): void;
+	(eventName: "failed-type", value: string): void;
 }>();
 
 const $file = ref<HTMLInputElement>()
+
+const isImage = (file: File): boolean => {
+	const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+	const result = validImageTypes.includes(file.type);
+	if (!result) {
+		emit('failed-type', file.name);
+	}
+	return result;
+}
 
 const onClickLoad = () => {
 	$file.value?.click()
@@ -19,7 +29,8 @@ const onClickLoad = () => {
 
 const uploadFile = (e: Event) => {
 	const file = (e.target as HTMLInputElement).files[0]
-	if (!file) return false
+	const isImageFile = isImage(file);
+	if (!file || !isImageFile) return;
 	const form = new FormData()
 	form.append('file', file)
 	$file.value.value = null;

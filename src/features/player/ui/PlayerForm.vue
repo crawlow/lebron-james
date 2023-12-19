@@ -2,7 +2,8 @@
 import { PlayerModel, loadFile, useTeamsStore } from '@/entities';
 import { SelectOptionModel, UiAvatar, UiButton, UiDatepicker, UiInput, UiSelect } from '@/shared';
 import useVuelidate from '@vuelidate/core';
-import { PropType, computed, nextTick, onMounted, ref, watch } from 'vue';
+import { PropType, computed, onMounted, ref, watch } from 'vue';
+import { NotificationBus, NotificationMessage } from '@/features';
 import { useRouter } from 'vue-router';
 import { required, numeric } from "@vuelidate/validators";
 import { usePlayerStore } from '@/entities';
@@ -110,6 +111,12 @@ const onSelectTeam = (val: SelectOptionModel) => {
 	value.value.team = val?.value;
 }
 
+const onFailedType = (fileName: string) => {
+	const notice = new NotificationBus()
+	notice.Show(NotificationMessage.Error(`${fileName} - is not a PNG, JPEG or JPG image.`))
+	return;
+}
+
 onMounted(async () => {
 	await initForm();
 })
@@ -119,7 +126,7 @@ onMounted(async () => {
 <template>
 	<form class="player-form">
 		<div class="player-form__aside">
-			<UiAvatar :url="value.avatarUrl" @update="loadImage" />
+			<UiAvatar :url="value.avatarUrl" @update="loadImage" @failed-type="onFailedType" />
 		</div>
 		<div class="player-form__bside">
 			<div class="player-form__bside-wrap">

@@ -5,6 +5,7 @@ import useVuelidate from '@vuelidate/core';
 import { PropType, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { required, numeric } from "@vuelidate/validators";
+import { NotificationBus, NotificationMessage } from '@/features/notification';
 
 const router = useRouter();
 
@@ -46,6 +47,12 @@ const onSave = () => {
 	emit('save');
 }
 
+const onFailedType = (fileName: string) => {
+	const notice = new NotificationBus()
+	notice.Show(NotificationMessage.Error(`${fileName} - is not a PNG, JPEG or JPG image.`))
+	return;
+}
+
 const loadImage = async (data: FormData) => {
 	const res = await loadFile(data);
 	if (res) {
@@ -58,7 +65,7 @@ const loadImage = async (data: FormData) => {
 <template>
 	<form class="team-form">
 		<div class="team-form__aside">
-			<UiAvatar :url="value.imageUrl" @update="loadImage" />
+			<UiAvatar :url="value.imageUrl" @update="loadImage" @failed-type="onFailedType" />
 		</div>
 		<div class="team-form__bside">
 			<div class="team-form__bside-wrap">
