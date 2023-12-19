@@ -77,7 +77,7 @@ const calculateAge = (birthdate: string): number => {
 	display: flex;
 	background: linear-gradient(276deg, $gray 0%, #393939 100.28%);
 	border-radius: 0px 0px 10px 10px;
-	color: #fff;
+	color: $white;
 	gap: 56px;
 
 	&__description {

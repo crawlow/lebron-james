@@ -74,7 +74,7 @@ const teamName = computed(() => {
 		.team-name {
 			font-size: 18px;
 			font-weight: 500;
-			color: #fff;
+			color: $white;
 			margin-bottom: 8px;
 
 			&__number {

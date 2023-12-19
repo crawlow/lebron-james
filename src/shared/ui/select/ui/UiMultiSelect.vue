@@ -174,7 +174,7 @@ onMounted(() => {
 
 	&:hover {
 		.ui-select__container {
-			background-color: #fff;
+			background-color: $white;
 			border-color: $lightest-gray;
 		}
 
@@ -186,7 +186,7 @@ onMounted(() => {
 	}
 
 	&__container {
-		background-color: #fff;
+		background-color: $white;
 		border: 1px solid $superlight-gray;
 		display: flex;
 		align-items: center;
@@ -216,7 +216,7 @@ onMounted(() => {
 		flex-direction: column;
 		transform: translateY(6px);
 		z-index: 10;
-		background-color: #fff;
+		background-color: $white;
 
 		&.top {
 			bottom: 52px;
@@ -241,7 +241,7 @@ onMounted(() => {
 
 		&:hover {
 			background-color: $lightest-red;
-			color: #fff;
+			color: $white;
 			cursor: pointer;
 		}
 
@@ -258,7 +258,7 @@ onMounted(() => {
 
 		&.active {
 			background-color: $dark-red;
-			color: #fff;
+			color: $white;
 			border-color: $dark-red;
 		}
 	}
@@ -282,7 +282,7 @@ onMounted(() => {
 			border-radius: 4px;
 			line-height: 16px;
 			align-items: center;
-			color: #fff;
+			color: $white;
 			white-space: nowrap;
 
 			&.active {
@@ -349,18 +349,18 @@ onMounted(() => {
 .default {
 	&:hover {
 		.ui-select__container {
-			background-color: #fff;
+			background-color: $white;
 		}
 	}
 
 	.ui-select {
 
 		&__container {
-			background-color: #fff;
+			background-color: $white;
 			border: 0.5px solid $lightest-gray;
 
 			&:hover {
-				background-color: #fff;
+				background-color: $white;
 			}
 		}
 

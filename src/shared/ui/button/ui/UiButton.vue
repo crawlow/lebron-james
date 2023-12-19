@@ -45,7 +45,7 @@ const props = defineProps({
 	padding: 0 24px;
 
 	&.primary {
-		color: #fff;
+		color: $white;
 		background-color: $red;
 		border: 1px solid $red;
 
@@ -68,7 +68,7 @@ const props = defineProps({
 	}
 
 	&.secondary {
-		background-color: #fff;
+		background-color: $white;
 		color: $light-gray;
 		border: 1px solid $light-gray;
 

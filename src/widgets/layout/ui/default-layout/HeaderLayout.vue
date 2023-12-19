@@ -40,7 +40,7 @@ const onClickMenu = () => {
 	height: 80px;
 	position: fixed;
 	width: 100%;
-	background-color: #fff;
+	background-color: $white;
 	box-shadow: 0px 1px 10px 0px rgba(209, 209, 209, 0.50);
 	display: flex;
 	align-items: center;

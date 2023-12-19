@@ -147,7 +147,7 @@ const clearValue = () => {
 		flex-direction: column;
 		transform: translateY(6px);
 		z-index: 10;
-		background-color: #fff;
+		background-color: $white;
 
 		&.top {
 			bottom: 52px;
@@ -165,7 +165,7 @@ const clearValue = () => {
 
 		&:hover {
 			background-color: $lightest-red;
-			color: #fff;
+			color: $white;
 			cursor: pointer;
 		}
 
@@ -182,7 +182,7 @@ const clearValue = () => {
 
 		&.active {
 			background-color: $dark-red;
-			color: #fff;
+			color: $white;
 			border-color: $dark-red;
 		}
 	}
@@ -237,18 +237,18 @@ const clearValue = () => {
 .default {
 	&:hover {
 		.ui-select__container {
-			background-color: #fff;
+			background-color: $white;
 		}
 	}
 
 	.ui-select {
 
 		&__container {
-			background-color: #fff;
+			background-color: $white;
 			border: 0.5px solid $lightest-gray;
 
 			&:hover {
-				background-color: #fff;
+				background-color: $white;
 			}
 		}
 

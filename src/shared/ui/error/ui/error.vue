@@ -33,7 +33,7 @@ const props = defineProps({
 	font-weight: 400;
 	line-height: 32px;
 	border-radius: 15px;
-	background-color: #fff;
+	background-color: $white;
 	padding: 48px 36px;
 
 	&__img {

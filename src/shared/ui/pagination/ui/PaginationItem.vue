@@ -68,7 +68,7 @@ const clickHandler = () => {
 	}
 
 	&.active {
-		color: #fff;
+		color: $white;
 		background-color: $red;
 		border-color: $red;
 	}

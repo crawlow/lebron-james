@@ -87,7 +87,7 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .team-roster {
-	background-color: #fff;
+	background-color: $white;
 	border: 0.5px solid $light-gray;
 	color: $gray;
 	border-radius: 10px;

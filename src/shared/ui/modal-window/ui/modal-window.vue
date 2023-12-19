@@ -73,7 +73,7 @@ watch(() => props.modelValue, () => {
 	.modal-dialog {
 		max-width: 360px;
 		width: 100%;
-		background: #ffffff;
+		background: $white;
 		border-radius: 5px;
 		margin: auto;
 		padding: 32px;

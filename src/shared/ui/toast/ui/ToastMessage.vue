@@ -106,7 +106,7 @@ const onCloseClick = () => {
 		cursor: pointer;
 
 		&:hover {
-			color: #fff !important;
+			color: $white !important;
 		}
 	}
 }

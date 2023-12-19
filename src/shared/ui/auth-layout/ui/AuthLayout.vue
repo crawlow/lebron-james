@@ -38,7 +38,7 @@ const props = defineProps({
 		width: 606px;
 		display: flex;
 		justify-content: center;
-		background-color: #fff;
+		background-color: $white;
 		height: 100%;
 		align-items: center;
 		flex-direction: column;

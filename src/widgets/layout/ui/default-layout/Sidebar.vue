@@ -84,7 +84,7 @@ const onSignOut = async () => {
 	position: fixed;
 	width: 140px;
 	height: 100%;
-	background-color: #fff;
+	background-color: $white;
 	display: flex;
 	padding-top: 80px;
 
@@ -187,7 +187,7 @@ const onSignOut = async () => {
 			ul {
 				position: relative;
 				z-index: 1;
-				background-color: #fff;
+				background-color: $white;
 				align-items: start;
 				padding: 16px 0 24px;
 				gap: 24px;
@@ -214,6 +214,7 @@ const onSignOut = async () => {
 					}
 
 				}
+
 				.sidebar__user {
 					padding-left: 16px;
 

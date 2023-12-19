@@ -17,7 +17,7 @@
 .page-template-edit {
 	display: flex;
 	flex-direction: column;
-	background-color: #fff;
+	background-color: $white;
 	border-radius: 10px;
 
 	&__header {
