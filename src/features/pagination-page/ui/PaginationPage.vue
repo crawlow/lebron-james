@@ -55,6 +55,7 @@ const updateQuery = () => {
 }
 
 const onSelect = async () => {
+	innerPage.value = 1;
 	await nextTick();
 	updateQuery();
 }
