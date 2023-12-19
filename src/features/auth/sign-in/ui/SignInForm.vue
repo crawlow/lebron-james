@@ -21,10 +21,10 @@ const v$ = useVuelidate<any>(
 	{ data }
 )
 const signIn = () => {
-	// v$.value.data.$touch();
-	// if (v$.value.$invalid) {
-	// 	return;
-	// }
+	v$.value.data.$touch();
+	if (v$.value.$invalid) {
+		return;
+	}
 	emit('signIn', data.value);
 }
 

@@ -3,6 +3,7 @@ import { AuthModel, RegisterModel } from '../models';
 import { noAuthApi } from '@/shared';
 import { NotificationBus, NotificationMessage } from '@/features';
 import { UserModel, useUserStore } from '@/entities/user';
+const notification = new NotificationBus();
 
 export const useAuthStore = defineStore('auth-store', () => {
   const signIn = async (req: AuthModel): Promise<boolean> => {
@@ -15,7 +16,6 @@ export const useAuthStore = defineStore('auth-store', () => {
         }
         return resolve(true);
       } catch (e) {
-        const notification = new NotificationBus();
         notification.Show(
           NotificationMessage.Error(
             'User with the specified username / password was not found.'
@@ -36,6 +36,12 @@ export const useAuthStore = defineStore('auth-store', () => {
         return resolve(true);
       } catch (e) {
         console.log('e', e);
+        if ((e as any).response.data.includes('duplicate key'))
+          notification.Show(
+            NotificationMessage.Error(
+              'User with the specified login already exist.'
+            )
+          );
         return resolve(false);
       }
     });
