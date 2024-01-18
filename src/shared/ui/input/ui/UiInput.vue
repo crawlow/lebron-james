@@ -149,6 +149,7 @@ const isShowPassword = ref(false);
 	&.is-search {
 		.ui-input__control {
 			background-color: $white;
+			border: 1px solid $lightest-gray;
 		}
 	}
 

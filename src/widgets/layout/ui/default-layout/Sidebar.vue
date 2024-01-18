@@ -98,6 +98,7 @@ const onSignOut = async () => {
 		.menu-item {
 			display: flex;
 			justify-content: center;
+			font-size: 12px;
 
 			&.logout {
 				margin-top: auto;

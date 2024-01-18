@@ -187,7 +187,7 @@ onMounted(() => {
 
 	&__container {
 		background-color: $white;
-		border: 1px solid $superlight-gray;
+		border: 1px solid $lightest-gray;
 		display: flex;
 		align-items: center;
 		height: 40px;

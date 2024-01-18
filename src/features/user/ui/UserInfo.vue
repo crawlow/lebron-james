@@ -29,6 +29,11 @@ const avatarUrl = computed(() => currentUser.value?.avatarUrl || ProfilePlacehol
 		color: $dark-gray;
 	}
 
+	img {
+		max-width: 36px;
+		max-height: 36px;
+	}
+
 	@include media('<desktop') {
 		font-size: 15px;
 	}
