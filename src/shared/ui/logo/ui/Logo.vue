@@ -9,6 +9,7 @@
 <style lang="scss" scoped>
 .logo-link {
 	display: flex;
+	
 }
 .logo {
 	max-width: 191px;
